@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private int score;
     private bool isGameActive = true;
     private float spawnRate = 1.0f;
+    private int minusScore;
 
     void Awake()
     {
@@ -34,8 +35,33 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        scoreText.text = "score:0" + score;
+      
         StartGame();
     }
+
+    /* public void UpdateScore(int score)
+     {
+         this.score = this.score + score;
+         scoreText.text = "score:0" + this.score;
+
+
+     }
+    */
+
+    public void UpdateScore(int s)
+    {
+        score += s;
+        scoreText.text = "score:" + score;
+
+
+    }
+
+
+ 
+
+
+
 
     void StartGame()
     {
@@ -44,7 +70,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnTargets()
     {
-        yield return null;
+        while (true)
+        {
+            int idx = Random.Range(0, targets.Count);
+            var prefab = targets[idx];
+            Instantiate(prefab);
+            yield return new WaitForSeconds(spawnRate);
+        }
     }
 }
 
